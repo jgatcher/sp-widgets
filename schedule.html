@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>BI Knowledge Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/dayjs@1.11.3/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.11.3/plugin/utc.js"></script>
+    <script src="https://unpkg.com/dayjs@1.11.3/plugin/timezone.js"></script>
+    <script>
+      dayjs.extend(window.dayjs_plugin_utc);
+      dayjs.extend(window.dayjs_plugin_timezone);
+    </script>
+    <style>
+      :root {
+        --border-color: rgb(237, 235, 233);
+        --background-color: #ededed;
+      }
+
+      * {
+        font-family: "Segoe UI", "Open Sans", "Inter", sans-serif;
+        box-sizing: border-box;
+      }
+
+      h3 {
+        margin: 0;
+        margin-bottom: 5px;
+        font-weight: 500;
+        font-size: 18px;
+        color: grey;
+      }
+
+      h4 {
+        margin: 0;
+        display: inline-flex;
+        justify-content: space-between;
+      }
+
+      .container {
+        margin: auto;
+        width: 90%;
+      }
+
+      .board-body ul li {
+        list-style: none;
+      }
+
+      .board-body ul {
+        padding-left: 16px;
+        padding-bottom: 0;
+        margin: 0;
+      }
+
+      .left-pad {
+        padding-left: 16px;
+        padding-bottom: 0;
+      }
+
+      .board {
+        border: 1px solid var(--border-color);
+        min-width: 320px;
+        max-width: fit-content;
+      }
+
+      .board-body {
+        display: flex;
+        flex-wrap: wrap;
+        width: fit-content;
+      }
+
+      .bottom-margin-small {
+        margin-bottom: 5px;
+      }
+
+      .card {
+        min-width: 320px;
+      }
+
+      .card-section {
+        padding-top: 6px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--border-color);
+        transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+      }
+
+      .card-section:nth-last-child(1) {
+        border-bottom: 0px;
+        padding-bottom: 8px;
+      }
+
+      .large-font {
+        font-size: 18px;
+      }
+
+      .medium-font {
+        font-size: 13px;
+      }
+
+      .small-font {
+        font-size: 11px;
+      }
+
+      .minor-text {
+        font-size: 12px;
+        font-weight: 400;
+        margin-right: 8px;
+      }
+
+      .title {
+        font-weight: 700;
+        min-width: 264px;
+        width: 100%;
+      }
+
+      .font-white {
+        color: white;
+      }
+
+      .font-truist {
+        color: #2e1a47;
+      }
+      .font-grey {
+        color: grey;
+      }
+
+      .bg-truist {
+        background-color: #2e1a47;
+      }
+
+      .bg-grey-1 {
+        background: #d9d9d9;
+      }
+
+      .bg-grey-2 {
+        background-color: #e7e7e7;
+      }
+
+      .bg-grey-3 {
+        background: #e9e8e8;
+      }
+
+      .full-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .h-center {
+        display: flex;
+        justify-content: center;
+      }
+
+      .v-center {
+        display: flex;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="board">
+        <div class="board-header"></div>
+        <div class="board-body small-font">
+          <section id="schedule-widget" class="card">
+            <div id="row-1" class="card-section bottom-margin-large">
+              <div>
+                <h4
+                  class="title title-small font-truist large-font v-center left-pad"
+                >
+                  Today
+                  <span class="minor-text font-white">Thursday, 30 June</span>
+                </h4>
+              </div>
+
+              <ul class="row">
+                <li data-designation="primary">Balo</li>
+                <li data-designation="secondary">...</li>
+                <li data-designation="additional">...</li>
+              </ul>
+            </div>
+            <div id="" class="card-section bottom-margin-large">
+              <h4
+                class="title title-small font-truist medium-font v-center left-pad"
+              >
+                Tomorrow
+              </h4>
+
+              <ul class="row">
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+              </ul>
+            </div>
+            <div class="card-section bottom-margin-large">
+              <h4
+                class="title title-xsmall font-truist small-font v-center left-pad"
+              >
+                Yesterday
+              </h4>
+              <ul class="row">
+                <li>...</li>
+                <li>...</li>
+                <li>...</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <script>
+      /** Data for Schedule - created by exporting sheet  as csv and replacing commas with pipes*/
+
+      let header = "Assigned Day|Primary|Secondary|Additional Support |";
+      let rawData = `Monday, June 13, 2022| Mounika  Padala| Anusree Karyatath|
+      Tuesday, June 14, 2022| Siddhartha  Mukherjee| Nimitha Niketh|
+      Wednesday, June 15, 2022| Akash  Meleveedu| Shreedeeksha  Mukherjee|
+      Thursday, June 16, 2022| Nimitha Niketh| Mounika  Padala| Akash  Meleveedu
+      Friday, June 17, 2022| Anusree Karyatath| Nimitha Niketh- |
+      Saturday, June 18, 2022| Akash  Meleveedu| Shreedeeksha  Mukherjee|
+      Sunday, June 19, 2022| Akash  Meleveedu| Shreedeeksha  Mukherjee|||
+      Monday, June 20, 2022| Mounika  Padala| Anusree Karyatath|
+      Tuesday, June 21, 2022| Siddhartha  Mukherjee| Nimitha Niketh|
+      Wednesday, June 22, 2022| Akash  Meleveedu| Shreedeeksha  Mukherjee|
+      Thursday, June 23, 2022| Siddhartha  Mukherjee| Akash  Meleveedu| Shreedeeksha  Mukherjee
+      Friday, June 24, 2022| Anusree Karyatath| Siddhartha  Mukherjee|
+      Saturday, June 25, 2022| Shreedeeksha  Mukherjee| Nimitha Niketh|
+      Sunday, June 26, 2022| Shreedeeksha  Mukherjee| Nimitha Niketh|||
+      Monday, June 27, 2022| Mounika  Padala| Shreedeeksha  Mukherjee|
+      Tuesday, June 28, 2022| Siddhartha  Mukherjee| Akash  Meleveedu|
+      Wednesday, June 29, 2022| Akash  Meleveedu| Nimitha Niketh- |
+      Thursday, June 30, 2022| Shreedeeksha  Mukherjee| Nimitha Niketh- | Mounika  Padala||
+      Friday, July 01, 2022| Anusree Karyatath| Shreedeeksha  Mukherjee|
+      Saturday, July 02, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Sunday, July 03, 2022| Siddhartha  Mukherjee| Anusree Karyatath|||
+      Monday, July 04, 2022| Mounika  Padala| Nimitha Niketh|
+      Tuesday, July 05, 2022| Siddhartha  Mukherjee| Shreedeeksha  Mukherjee|
+      Wednesday, July 06, 2022| Akash  Meleveedu| Nimitha Niketh|
+      Thursday, July 07, 2022| Siddhartha  Mukherjee| Mounika  Padala| Akash  Meleveedu
+      Friday, July 08, 2022| Anusree Karyatath| Nimitha Niketh|
+      Saturday, July 09, 2022| Shreedeeksha  Mukherjee| Akash  Meleveedu|
+      Sunday, July 10, 2022| Shreedeeksha  Mukherjee| Akash  Meleveedu|||
+      Monday, July 11, 2022| Mounika  Padala| Akash  Meleveedu|
+      Tuesday, July 12, 2022| Siddhartha  Mukherjee| Nimitha Niketh |
+      Wednesday, July 13, 2022| Akash  Meleveedu| Mounika  Padala|
+      Thursday, July 14, 2022| Shreedeeksha  Mukherjee| Nimitha Niketh | Mounika  Padala
+      Friday, July 15, 2022| Anusree Karyatath| Siddhartha  Mukherjee|
+      Saturday, July 16, 2022| Nimitha Niketh| Mounika  Padala|
+      Sunday, July 17, 2022| Nimitha Niketh| Mounika  Padala|||
+      Monday, July 18, 2022| Mounika  Padala| Nimitha Niketh|
+      Tuesday, July 19, 2022| Siddhartha  Mukherjee| Shreedeeksha  Mukherjee|
+      Wednesday, July 20, 2022| Akash  Meleveedu| Mounika  Padala|
+      Thursday, July 21, 2022| Nimitha Niketh | Anusree Karyatath| Mounika  Padala
+      Friday, July 22, 2022| Anusree Karyatath| Shreedeeksha  Mukherjee|
+      Saturday, July 23, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Sunday, July 24, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Monday, July 25, 2022| Mounika  Padala| Akash  Meleveedu|
+      Tuesday, July 26, 2022| Siddhartha  Mukherjee| Nimitha Niketh|
+      Wednesday, July 27, 2022| Akash  Meleveedu| Anusree Karyatath|
+      Thursday, July 28, 2022| Shreedeeksha  Mukherjee| Siddhartha  Mukherjee| Akash  Meleveedu
+      Friday, July 29, 2022| Anusree Karyatath| Nimitha Niketh|
+      Saturday, July 30, 2022| Shreedeeksha  Mukherjee| Akash  Meleveedu|
+      Sunday, July 31, 2022| Shreedeeksha  Mukherjee| Akash  Meleveedu|||
+      Monday, August 01, 2022| Mounika  Padala| Nimitha Niketh|
+      Tuesday, August 02, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Wednesday, August 03, 2022| Akash  Meleveedu| Shreedeeksha  Mukherjee|
+      Thursday, August 04, 2022| Mounika  Padala| Nimitha Niketh | Shreedeeksha  Mukherjee
+      Friday, August 05, 2022| Anusree Karyatath| Siddhartha  Mukherjee|
+      Saturday, August 06, 2022| Nimitha Niketh| Mounika  Padala|
+      Sunday, August 07, 2022| Nimitha Niketh| Mounika  Padala|
+      Monday, August 08, 2022| Mounika  Padala| Akash  Meleveedu|
+      Tuesday, August 09, 2022| Siddhartha  Mukherjee| Nimitha Niketh|
+      Wednesday, August 10, 2022| Akash  Meleveedu| Shreedeeksha  Mukherjee|
+      Thursday, August 11, 2022| Siddhartha  Mukherjee| Akash  Meleveedu| Shreedeeksha  Mukherjee
+      Friday, August 12, 2022| Anusree Karyatath| Siddhartha  Mukherjee|
+      Saturday, August 13, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Sunday, August 14, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Sunday, August 31, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Thursday, September 1, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Friday, September 2, 2022| Siddhartha  Mukherjee| Anusree Karyatath|
+      Saturday, September 3, 2022| Siddhartha  Mukherjee| Anusree Karyatath|`;
+
+      let lines = rawData.split("\n");
+      let results = lines
+        .map((line) => line.split("|"))
+        .map((obj) => {
+          let date = new Date(obj[0]).getTime();
+          let [pfname, plname] = obj[1].trim().split(/\s/);
+          let [sfname, slname] = obj[2].trim().split(/\s/);
+          let [afname, alname] = obj[3].trim().split(/\s/);
+          return {
+            [date]: {
+              primary: obj[1].trim(),
+              secondary: obj[2].trim(),
+              additional: obj[3].trim()
+            }
+          };
+        });
+      console.log(results);
+      let data = results.reduce((prev, curr) => {
+        let key = Object.keys(curr)[0];
+        prev[key] = curr[key];
+        return { ...prev };
+        return;
+      }, {});
+      console.log(data);
+
+      function buildClass(...classes) {}
+      let template = ` 
+      <div class="card-section $$className$$">
+        $$prependMarkup$$
+        <h4 class="title $$titleSize$$  $$titleFont$$ v-center left-pad">
+            $$relativeDate$$     
+          <span class="minor-text font-grey">$$absoluteDate$$</span>
+        </h4>
+        <ul class="row $$rowFont$$ ">
+            <li>$$primary$$</li>
+            <li>$$secondary$$</li>
+            <li>$$additional$$</li>
+        </ul>
+      </div>`;
+
+      let today = dayjs().startOf("day");
+
+      /** today can be replaced with a date in the format YYYY-MM-dd ie 2022-06-06**/
+      process(today);
+
+      function process(dateOrString) {
+        console.log("Process", dateOrString);
+        let today = dateOrString;
+        if (typeof dateOrString == "string") {
+          today = dayjs(event.target.value, "YYYY-MM-dd");
+          console.log("Cast", today);
+        }
+        console.log("Post-Cast", today);
+        let tomorrow = today.add(1, "day");
+        let yesterday = today.subtract(1, "day");
+
+        let f = today.format("YYYY-MM-DD");
+        let g = tomorrow.format("YYYY-MM-DD");
+        let h = yesterday.subtract(1, "day").format("YYYY-MM-DD");
+
+        let todayRow = data[today.valueOf()];
+        c;
+        let tomorrowRow = data[tomorrow.valueOf()];
+        let yesterdayRow = data[yesterday.valueOf()];
+
+        console.log(todayRow, tomorrowRow);
+
+        let yesterdayTmpl = template
+          .replace("$$prependMarkup$$", "<h3 class='left-pad'> On Schedule<h3>")
+          .replace("$$className$$", "")
+          .replace("$$titleFont$$", "small-font")
+          .replace("$$relativeDate$$", "Yesterday")
+          .replace("$$absoluteDate$$", "")
+          .replace("$$titleSize$$", "")
+          .replace("$$rowFont$$", "small-font")
+          .replace("$$primary$$", yesterdayRow.primary)
+          .replace("$$secondary$$", yesterdayRow.secondary)
+          .replace("$$additional$$", yesterdayRow.additional);
+
+        let todayTmpl = template
+          .replace("$$className$$", "bg-grey-3")
+          .replace("$$prependMarkup$$", "")
+          .replace("$$titleFont$$", "medium-font")
+          .replace("$$rowFont$$", "small-font")
+          .replace("$$titleSize$$", "")
+          .replace("$$relativeDate$$", "Today")
+          .replace("$$absoluteDate$$", today.format("dddd"))
+          .replace("$$primary$$", todayRow.primary)
+          .replace("$$secondary$$", todayRow.secondary)
+          .replace("$$additional$$", todayRow.additional);
+
+        let tomorrowTmpl = template
+          .replace("$$className$$", "")
+          .replace("$$prependMarkup$$", "")
+          .replace("$$titleFont$$", "small-font")
+          .replace("$$rowFont$$", "small-font")
+          .replace("$$titleSize$$", "")
+          .replace("$$absoluteDate$$", "")
+          .replace("$$relativeDate$$", "Tomorrow")
+          .replace("$$primary$$", tomorrowRow.primary)
+          .replace("$$secondary$$", tomorrowRow.secondary)
+          .replace("$$additional$$", tomorrowRow.additional);
+
+        let final = yesterdayTmpl + todayTmpl + tomorrowTmpl;
+
+        let widget = document.getElementById("schedule-widget");
+        widget.innerHTML = final;
+      }
+      console.log("#####");
+
+      document.getElementById("clock-est");
+    </script>
+  </body>
+</html>

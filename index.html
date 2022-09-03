@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>BI Knowledge Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/dayjs@1.11.3/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.11.3/plugin/utc.js"></script>
+    <script src="https://unpkg.com/dayjs@1.11.3/plugin/timezone.js"></script>
+    <script>
+      dayjs.extend(window.dayjs_plugin_utc);
+      dayjs.extend(window.dayjs_plugin_timezone);
+    </script>
+    <style>
+      
+      :root {
+        --border-color: rgb(237, 235, 233);
+      }
+
+      * {
+        font-family: "Segoe UI", "Open Sans", "Inter", sans-serif;
+        box-sizing: border-box;
+      }
+
+      .clock-container {
+        border: 1px solid var(--border-color);
+        padding: 16px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        /* background: yellow; */
+        width: 320px;
+        margin-bottom:16px;
+      }
+
+      .clock-location {
+        font-size: 12px;
+      }
+
+      .clock-date {
+        font-size: 12px;
+        color: grey;
+        align-self: flex-end;
+        padding-bottom: 7px;
+        padding-left: 16px;
+      }
+
+      .clock-time {
+        font-size: 40px;
+        min-height: 53px;
+      }
+
+      .flex-row {
+        display: inline-flex;
+        row-gap: 15px;
+        /* background: pink; */
+        flex-direction: row;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="clock-est" data-timezone="America/New_York">
+        <div class="clock-container">
+          <div class="clock-location">Charlotte, North Carolina</div>
+          <div class="clock-details flex-row">
+            <div><span class="clock-time">...</span><span></span></div>
+            <div class="clock-date"></div>
+          </div>
+        </div>
+      </div>
+      <div id="clock-pt" data-timezone="America/Los_Angeles">
+        <div class="clock-container">
+          <div class="clock-location">Los Angeles, California</div>
+          <div class="clock-details flex-row">
+            <div><span class="clock-time">...</span><span></span></div>
+            <div class="clock-date"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="clock-ist" data-timezone="Asia/Kolkata">
+        <div class="clock-container">
+          <div class="clock-location">New Delhi, India</div>
+          <div class="clock-details flex-row">
+            <div><span class="clock-time">...</span><span></span></div>
+            <div class="clock-date"></div>
+          </div>
+        </div>
+      </div>
+      </html>
+      <script>
+        function calculateAndSetTime(id) {
+          let root = document.getElementById(id);
+          let timezone = root.dataset.timezone;
+          let currentTimeInTimezone = dayjs().tz(timezone);
+          let amOrPm = currentTimeInTimezone.hour() >= 12 ? "PM" : "AM";
+          root.querySelector(
+            ".clock-time"
+          ).innerText = currentTimeInTimezone.format("h:mm");
+          root.querySelector(".clock-time~span").innerText = amOrPm;
+          root.querySelector(
+            ".clock-date"
+          ).innerText = currentTimeInTimezone.format("dddd, MMMM, D, YYYY");
+      }
+
+      let intervalId = setInterval(() => {
+        calculateAndSetTime("clock-est");
+        calculateAndSetTime("clock-pt");
+        calculateAndSetTime("clock-ist");
+      }, 1000);
+      window.localStorage.setItem("clock-interval", intervalId);
+
+      console.log("Interval Id ", intervalId);
+    </script>
+  </body>
+</html>
